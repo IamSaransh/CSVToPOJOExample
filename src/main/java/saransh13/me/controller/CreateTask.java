@@ -1,5 +1,6 @@
 package saransh13.me.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,13 @@ import saransh13.me.service.ReadCsvService;
 import saransh13.me.util.UserFactoryImpl;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class CreateTask {
 
     @Value("${file.path}")
@@ -27,8 +31,8 @@ public class CreateTask {
     @Autowired
     GetEnrichedService getEnrichedService;
 
-    @Autowired
-    ReadCsvGenericService<User> csvGenericService;
+//    @Autowired
+//    ReadCsvGenericService<User> csvGenericService;
 
     @Autowired
     UserFactoryImpl factory;
@@ -40,12 +44,6 @@ public class CreateTask {
             getEnrichedService.modelUserToAdditionalDetails();
         }
         return "Done";
-    }
-
-    @GetMapping("/enrichfile/v2")
-    public ResponseEntity createTaskv2()  {
-        List<User> userFromCSV = csvGenericService.getDataFromCSv(factory);
-        return new ResponseEntity(userFromCSV, HttpStatus.OK);
     }
 
 }
